@@ -37,7 +37,27 @@
     </ul>
   © 2026</div></footer>
 <script>
+async function askGemini(promptText) {
+  const apiKey = "ضع_مفتاحك_هنا"; // احذر من استخدامها في مواقع الإنتاج العامة
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: promptText }] }]
+      })
+    });
+
+    const data = await response.json();
+    const reply = data.candidates[0].content.parts[0].text;
+    console.log("رد الذكاء الاصطناعي:", reply);
+    return reply;
+  } catch (error) {
+    console.error("خطأ:", error);
+  }
+}
 // دالة تحليل التربة المحدثة بالذكاء الاصطناعي
 async function soil() {
     let el = document.getElementById('soilout');
