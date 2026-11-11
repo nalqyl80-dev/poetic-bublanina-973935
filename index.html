@@ -37,6 +37,76 @@
     </ul>
   © 2026</div></footer>
 <script>
+  // ضع رابط الدالة الخاص بك هنا (رابط Supabase Edge Function)
+const SUPABASE_FUNCTION_URL = 'https://[YOUR_PROJECT_REF].supabase.co/functions/v1/agri-assistant';
+const SUPABASE_ANON_KEY = '[YOUR_SUPABASE_ANON_KEY]';
+
+// دالة تحليل التربة المحدثة بالذكاء الاصطناعي
+async function soil() {
+    let el = document.getElementById('soilout');
+    let location = document.getElementById('loc').value || 'الموقع غير محدد';
+    let purpose = document.getElementById('purpose').value;
+    let notes = document.getElementById('notes').value;
+
+    el.style.display = 'block';
+    el.innerHTML = '<b>جاري تحليل التربة عبر الذكاء الاصطناعي... ⏳</b>';
+
+    let prompt = `أحتاج إلى إرشاد زراعي لتحليل تربة في منطقة ${location}، الغرض الزراعي هو: ${purpose}. ملاحظات إضافية: ${notes}. أرجو تقديم توجيهات أولية دقيقة.`;
+
+    try {
+        let response = await fetch(SUPABASE_FUNCTION_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({ prompt: prompt, type: 'soil' })
+        });
+
+        let data = await response.json();
+        if (data.reply) {
+            el.innerHTML = `<b>إرشاد الذكاء الاصطناعي — ${location}</b><p>${data.reply.replace(/\n/g, '<br>')}</p>`;
+        } else {
+            el.innerHTML = `<b>خطأ:</b> لم يتم استلام رد صحيح من الخادم.`;
+        }
+    } catch (err) {
+        el.innerHTML = `<b>حدث خطأ في الاتصال:</b> ${err.message}`;
+    }
+    el.classList.add('show');
+}
+
+// دالة الطقس المحدثة بالذكاء الاصطناعي
+async function weather() {
+    let el = document.getElementById('weatherout');
+    let city = document.getElementById('city').value || 'المدينة غير محددة';
+    let crop = document.getElementById('crop').value;
+
+    el.style.display = 'block';
+    el.innerHTML = '<b>جاري جلب الإرشادات المناخية عبر الذكاء الاصطناعي... ⏳</b>';
+
+    let prompt = `أعطني إرشادات زراعية مناخية لمدينة ${city} لمصول ${crop}، وتوجيهات للتعاملกับ تقلبات الطقس والحرارة والرياح.`;
+
+    try {
+        let response = await fetch(SUPABASE_FUNCTION_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({ prompt: prompt, type: 'weather' })
+        });
+
+        let data = await response.json();
+        if (data.reply) {
+            el.innerHTML = `<b>إرشادات الطقس الذكية لـ ${city}</b><p>${data.reply.replace(/\n/g, '<br>')}</p>`;
+        } else {
+            el.innerHTML = `<b>خطأ:</b> لم يتم استلام رد صحيح.`;
+        }
+    } catch (err) {
+        el.innerHTML = `<b>حدث خطأ في الاتصال:</b> ${err.message}`;
+    }
+    el.classList.add('show');
+}
 function tab(id){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));document.getElementById('hero').style.display=id==='home'?'block':'none';scrollTo({top:0,behavior:'smooth'})}document.querySelectorAll('[data-tab]').forEach(x=>x.onclick=()=>tab(x.dataset.tab));
 document.getElementById('soilFile').onchange=e=>{let f=e.target.files[0];if(f){let p=document.getElementById('prev');p.src=URL.createObjectURL(f);p.style.display='block'}};
 function soil(){let el=document.getElementById('soilout');el.innerHTML='<b>الإرشاد الأولي — '+(document.getElementById('loc').value||'الموقع غير محدد')+'</b><p>الغرض: '+document.getElementById('purpose').value+'. افحص قوام التربة وتصريفها وعمقها، وخذ عينة ممثلة لتحليل pH والملوحة والمواد العضوية والعناصر الغذائية.</p><p>هذه النسخة لا تشخّص الصورة بالذكاء الاصطناعي؛ لم يتم ربط نموذج رؤية حاسوبية بعد.</p>';el.classList.add('show')}
