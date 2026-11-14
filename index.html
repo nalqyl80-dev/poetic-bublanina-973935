@@ -58,7 +58,6 @@
                 <a href="#ai-assistant" class="hover:text-brand-600 transition flex items-center gap-1.5 text-brand-600">
                     <i class="fa-solid fa-robot"></i> المساعد الذكي
                 </a>
-                <a href="#market" class="hover:text-brand-600 transition">السوق والمقارنة</a>
                 <a href="#library" class="hover:text-brand-600 transition">المكتبة البحثية</a>
                 <a href="#pricing" class="hover:text-brand-600 transition">الباقات</a>
             </nav>
@@ -374,7 +373,6 @@
             responseBox.classList.add('bg-slate-50', 'border-slate-200');
             responseText.innerHTML = '<span class="text-slate-400">يقوم نموذج الذكاء الاصطناعي بمعالجة البيانات واسترجاع الإرشادات الموثقة...</span>';
 
-            // محاكاة استجابة ذكية فورية فائقة السرعة تضمن عدم حدوث أي خطأ
             setTimeout(() => {
                 let aiOutput = generateSmartAgriculturalResponse(query);
                 responseText.innerText = aiOutput;
@@ -414,7 +412,7 @@
                        `1. **العناية والري:** تأكد من تنظيم الري وفقاً لطبيعة التربة ودرجات الحرارة المحلية لتفادي إجهاد الجذور[span_49](start_span)[span_49](end_span).\n` +
                        `2. **المكافحة الوقائية:** افحص الأوراق والسيقان دورياً لرصد أي أعراض مبكرة للآفات[span_50](start_span)[span_50](end_span).\n` +
                        `3. **التوثيق:** تم إدراج هذه الاستشارة في سجل المزرعة الرقمي الخاص بك للمتابعة الدورية[span_51](start_span)[span_51](end_span).\n\n` +
-                       `⚠️ *ملاحظة سلامة*: للحالات المعقدة، يُنصح برفع صورة واضحة إضافية أو طلب استشارة خبير مختص من قائمة الشركاء[span_52](start_span)[span_52](end_span).`;
+                       `⚠️ *تنبيه سلامة*: للحالات المعقدة، يُنصح برفع صورة واضحة إضافية أو طلب استشارة خبير مختص من قائمة الشركاء[span_52](start_span)[span_52](end_span).`;
             }
         }
 
